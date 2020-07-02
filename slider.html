@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Custom Components for Content Assets</title>
+    <style>
+/*          ////////// STYLE RESET //////////          */
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        img {
+            display: block;
+            width: 100%;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 20px auto;
+        }
+        
+/*          ////////// SLIDER STYLE //////////          */
+        .slide-container {
+            position: relative;
+        }
+        .slider {
+            position: relative;
+        }
+        .slide {
+            position: absolute;
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        .fade-in {
+            opacity: 1;
+        }
+        .placeholder {
+            position: relative !important;
+            opacity: 0;
+        }
+        .nav-left {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-45deg);
+            width: 30px;
+            height: 30px;
+            border-top: #FFF 2px solid;
+            border-left: #FFF 2px solid;
+            z-index: 99;
+            cursor: pointer;
+        }
+        .nav-right {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 30px;
+            height: 30px;
+            border-top: #FFF 2px solid;
+            border-right: #FFF 2px solid;
+            z-index: 99;
+            cursor: pointer;
+        }
+        @media screen and (max-width:760px){
+            .nav-left {
+                width: 20px;
+                height: 20px;
+            }
+            .nav-right {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+<!--     / / / / / BEGIN SLIDER HTML CODE / / / / /     -->
+            <div class="slider">
+                <div class="nav-left"></div>
+                <div class="nav-right"></div>
+                
+                <div class="slide"><img src="images/slide1.jpg" alt=""></div>
+                <div class="slide"><img src="images/slide2.jpg" alt=""></div>
+                <div class="slide"><img src="images/slide3.jpg" alt=""></div>
+            </div>
+<!--     / / / / / END SLIDER HTML CODE / / / / /     -->
+   
+    </div>
+    
+<!--     / / / / / SLIDER JAVASCRIPT / / / / /     -->
+    <script>
+        var slideContainer = document.querySelector('.slide-container');
+        var sliders = document.querySelectorAll('.slider');
+        
+        sliders.forEach(function(slider){
+            var slideIndex = 0;
+            var slides = slider.querySelectorAll('.slide');
+            var navLeft = slider.querySelector('.nav-left');
+            var navRight = slider.querySelector('.nav-right');
+            
+            var cln = slides[0].cloneNode(true);
+
+            slides[0].classList.add('fade-in');
+
+            cln.classList.add('placeholder');
+            slider.appendChild(cln);
+            cln.classList.remove('slide');
+            
+            
+            
+            navLeft.addEventListener("click", function(){
+                slides.forEach(function(slide){
+                    slide.classList.remove('fade-in');
+                });
+                if(slideIndex==0){
+                    slideIndex=slides.length-1;
+                    slides[slideIndex].classList.add('fade-in');
+                }else{
+                    slideIndex--;
+                    slides[slideIndex].classList.add('fade-in');
+                }
+            });
+
+            navRight.addEventListener("click", function(){
+                slides.forEach(function(slide){
+                    slide.classList.remove('fade-in');
+                });
+                if(slideIndex==slides.length-1){
+                    slideIndex=0;
+                    slides[slideIndex].classList.add('fade-in');
+                }else{
+                    slideIndex++;
+                    slides[slideIndex].classList.add('fade-in');
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>
